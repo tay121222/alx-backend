@@ -53,7 +53,7 @@ class Server:
         assert index is None or (0 <= index < total)
 
         temp = []
-        next_index = min(index + page_size, total)
+        next_index = index
 
         while next_index < total and len(temp) < page_size:
             if next_index in indexed_dataset:

@@ -14,19 +14,18 @@ class LIFOCache(BaseCaching):
 
     def put(self, key, item):
         """Put item into cache"""
-        if key is None or item is None:
-            return
+        if key is not None and item is not None:
+            self.cache_data[key] = item
 
-        if len(self.cache_data) >= self.MAX_ITEMS:
-            first_item = self.templist.pop(0)
-            print("DISCARD:", first_item)
-            del self.cache_data[first_item]
+            if len(self.cache_data) > BaseCaching.MAX_ITEMS:
+                discarded_key = self.last_key
+                print("DISCARD: {}".format(discarded_key))
+                del self.cache_data[discarded_key]
 
-        self.cache_data[key] = item
-        self.templist.append(key)
+            self.last_key = key
 
     def get(self, key):
         """Get item from cache"""
         if key is None or key not in self.cache_data:
             return None
-        return self.cache_data[key]
+        return self.cache_data.get(key, None)

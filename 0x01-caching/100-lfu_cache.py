@@ -16,6 +16,9 @@ class LFUCache(BaseCaching):
     def put(self, key, item):
         """Put item in cache"""
 
+        if key is None or item is None:
+            return
+
         if key is not None and item is not None:
             if len(
                     self.cache_data

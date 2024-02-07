@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """asic Flask app"""
 from flask import Flask, render_template, request, g
-from flask_babel import Babel, _
+from flask_babel import Babel
 from pytz.exceptions import UnknownTimeZoneError
 app = Flask(__name__)
 babel = Babel(app)
@@ -34,8 +34,10 @@ def get_user(user_id):
 
 @app.before_request
 def before_request():
+    """find a user if any, and set it as a global on flask.g.user"""
     user_id = request.args.get('login_as')
     g.user = get_user(int(user_id)) if user_id else None
+
 
 @babel.localeselector
 def get_locale():
